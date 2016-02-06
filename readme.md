@@ -68,6 +68,21 @@ const actions = objActions(store.dispatch, {
 
 ```
 
+In the example above, our action helpers are nested, and the generated action type is affected. Calling `actions.user.setName('Joe')` would produce the following action: `{type: 'user_setName', name: 'Joe'}`.
+
+## Explicitly declaring types
+
+You use `objActions` as a way of avoiding the necessity of defining `type`. But sometimes you need to explicitly specify a type. ObjActions respects the type that your helper returns.
+
+```js
+const actions = objActions(dispatch, {
+  setName: name => ({type: 'SET_NAME', name}),
+  setAge: age => ({age})
+})
+```
+
+In the above situation, calling `actions.setName('Sally')` would produce this action: `{type: 'SET_NAME', name: 'Sally'}`.
+
 ## Automatically passing actions down to containers
 
 The most annoying thing about `objActions` is passing them down to each
