@@ -2,13 +2,16 @@
 
 A utility to create auto-typed Redux actions from an object.
 
-Part of the [reduxr](https://github.com/chrisdavies/reduxr) family of packages.
+Part of the [reduxr](https://github.com/chrisdavies/reduxr) family of packages,
+pairs nicely with  [reduxr-obj-reducer](https://github.com/chrisdavies/reduxr-obj-reducer).
 
 [![Build Status](https://travis-ci.org/chrisdavies/reduxr-obj-actions.svg?branch=master)](https://travis-ci.org/chrisdavies/reduxr-obj-actions)
 
 ## Usage
 
-Something I found myself doing over and over with Redux was this:
+One complaint about Redux is the amount of boilerplate in idiomatic codebases. This is partly due to the fact that action types are repeated in their const definitions, action helpers, and reducers.
+
+Here's a simple example of the problem:
 
 ```js
 // Define a const for an action's type
@@ -23,7 +26,7 @@ const actions = bindActionCreators({
 
 ```
 
-This is why `obj-actions` was created:
+`obj-actions` helps eliminate the redundancy:
 
 ```js
 const actions = objActions(dispatch, {
@@ -34,7 +37,9 @@ const actions = objActions(dispatch, {
 
 It may not look like a big savings, but it turns out to be very handy in many scenarios.
 
-Generally, I define my actions/action-helpers in several files, and just call `objActions` from my application main file:
+In the above code, a call to `actions.setName('Frank')` would result in the following action being dispatched: `{type: 'setName', name: 'Frank'}`.
+
+You may have noticed that the dispatch function is passed as the first argument to `objActions`. This is because it is usually best to define your actions/action-helpers in several files, and just call `objActions` from your application main file:
 
 ```js
 // user-actions.js
@@ -54,28 +59,14 @@ import objActions from 'reduxr-obj-actions';
 import user from './user-actions';
 import chat from './chat-actions';
 
-/// ... other stuff ...
+/// ... Redux initialization, and so on...
 
-const actions = objActions(dispatch, {
+const actions = objActions(store.dispatch, {
   user,
   chat
 })
 
 ```
-
-Using the resulting actions object like so:
-
-```js
-actions.user.setName('Frank')
-```
-
-would dispatch the following action:
-
-```js
-{ type: 'user_setName', name: 'Frank' }
-```
-
-This pairs nicely with [reduxr-obj-reducer](https://github.com/chrisdavies/reduxr-obj-reducer).
 
 ## Automatically passing actions down to containers
 
