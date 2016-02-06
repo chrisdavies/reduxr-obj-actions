@@ -2,6 +2,8 @@
 
 A utility to create auto-typed Redux actions from an object.
 
+Part of the [reduxr](https://github.com/chrisdavies/reduxr) family of packages.
+
 [![Build Status](https://travis-ci.org/chrisdavies/reduxr-obj-actions.svg?branch=master)](https://travis-ci.org/chrisdavies/reduxr-obj-actions)
 
 ## Usage
@@ -74,6 +76,29 @@ would dispatch the following action:
 ```
 
 This pairs nicely with [reduxr-obj-reducer](https://github.com/chrisdavies/reduxr-obj-reducer).
+
+## Automatically passing actions down to containers
+
+The most annoying thing about `objActions` is passing them down to each
+container. There is a hacky but effective way of avoiding this:
+
+```js
+// In main.js
+import actions from './actions'
+import objActions from 'reduxr-obj-actions'
+
+let store = createStore(todoApp)
+
+// This is hacky, and is not necessary, but doing this
+// prevents us from having to pass actions down through
+// each container...
+store.dispatch.actions = objActions(store.dispatch, actions);
+
+```
+
+Now, anywhere you can access `dispatch` you can access `dispatch.actions`.
+
+An example of this can be seen [here](https://github.com/chrisdavies/reduxr/blob/master/examples/todos/containers/AddTodo.js).
 
 ## License MIT
 
