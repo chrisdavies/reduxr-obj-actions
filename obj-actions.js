@@ -11,8 +11,8 @@ module.exports = function objActions (dispatch, obj, prefix) {
   var result = {};
 
   for (var key in obj) {
-    const val = obj[key];
-    const type = prefix + key;
+    var val = obj[key];
+    var type = prefix + key;
 
     result[key] = isFunction(val) ?
       autoTypeAndDispatch(dispatch, val, type) :
@@ -24,7 +24,7 @@ module.exports = function objActions (dispatch, obj, prefix) {
 
 function autoTypeAndDispatch(dispatch, fn, type) {
   return function () {
-    const result = fn.apply(null, arguments);
+    var result = fn.apply(null, arguments);
 
     return dispatch(mix({type: type}, result));
   }

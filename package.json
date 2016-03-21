@@ -1,6 +1,6 @@
 {
   "name": "reduxr-obj-actions",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Creates auto-typed Redux actions",
   "main": "obj-actions.js",
   "directories": {},
